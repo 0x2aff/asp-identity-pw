@@ -87,8 +87,7 @@ export const verifyPassword = (password: string, hash: string): boolean => {
 
       return result.equals(derivedKey);
     }
-    case KeyDerivationPrf.HMAC_SHA256:
-    case KeyDerivationPrf.HMAC_SHA512: {
+    case KeyDerivationPrf.HMAC_SHA256: {
       const iterationCount = readNetworkByteOrder(hashBuffer, 5);
       const saltLength = readNetworkByteOrder(hashBuffer, 9);
 
@@ -151,8 +150,7 @@ const hashPassword = (
 
       return outputBytes.toString('base64');
     }
-    case KeyDerivationPrf.HMAC_SHA256:
-    case KeyDerivationPrf.HMAC_SHA512: {
+    case KeyDerivationPrf.HMAC_SHA256: {
       const outputBytes = Buffer.alloc(13 + salt.length + derivedKey.length);
       outputBytes[0] = PrfBitMap[prf];
 
@@ -178,13 +176,11 @@ const getPrfMethodFromHash = (hash: string | Buffer): KeyDerivationPrf => {
 const PrfBitMap: { [key: number]: number } = {
   [KeyDerivationPrf.HMAC_SHA1]: 0x00,
   [KeyDerivationPrf.HMAC_SHA256]: 0x01,
-  [KeyDerivationPrf.HMAC_SHA512]: 0x02,
 };
 
 const BitPrfMap: { [key: number]: number } = {
   [0x00]: KeyDerivationPrf.HMAC_SHA1,
   [0x01]: KeyDerivationPrf.HMAC_SHA256,
-  [0x02]: KeyDerivationPrf.HMAC_SHA512,
 };
 
 const readNetworkByteOrder = (buffer: Buffer, offset: number): number => {

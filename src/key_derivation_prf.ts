@@ -6,8 +6,6 @@ export enum KeyDerivationPrf {
   HMAC_SHA1 = 0,
   /** The HMAC algorithm (RFC 2104) using the SHA-256 hash function (FIPS 180-4) */
   HMAC_SHA256 = 1,
-  /** TThe HMAC algorithm (RFC 2104) using the SHA-512 hash function (FIPS 180-4). */
-  HMAC_SHA512 = 2,
 }
 
 /**
@@ -16,5 +14,4 @@ export enum KeyDerivationPrf {
 export const KdPrfDigestMap = {
   [KeyDerivationPrf.HMAC_SHA1]: 'sha1',
   [KeyDerivationPrf.HMAC_SHA256]: 'sha256',
-  [KeyDerivationPrf.HMAC_SHA512]: 'sha512',
 };

@@ -1,3 +1,7 @@
-import { KeyDerivationPrf, KdPrfDigestMap } from './key_derivation_prf';
+import {
+  hashIdentityPasswordV2,
+  hashIdentityPasswordV3,
+  verifyPassword,
+} from './password_hasher';
 
-export { KeyDerivationPrf, KdPrfDigestMap };
+export { hashIdentityPasswordV2, hashIdentityPasswordV3, verifyPassword };
