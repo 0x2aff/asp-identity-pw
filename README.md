@@ -1,5 +1,7 @@
 # ASP Identity Password Hasher
 
+[![NPM version][npm-image]][npm-url]
+
 ## Info
 
 ### V2 Password
@@ -52,3 +54,6 @@ const isValid = verifyPassword(
   hashedPasswordFromDatabase
 );
 ```
+
+[npm-url]: https://npmjs.org/package/asp-identity-pw
+[npm-image]: https://img.shields.io/npm/v/asp-identity-pw.svg
