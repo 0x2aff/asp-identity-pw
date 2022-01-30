@@ -1,0 +1,33 @@
+{
+  "name": "asp-identity-pw",
+  "version": "1.0.0",
+  "description": "Password hash and validation library that is compatible with the default ASP.NET Core Identity framework.",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib/**/*"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "asp.net",
+    "identity",
+    "password",
+    "hash",
+    "validation"
+  ],
+  "author": "exceptionptr",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0x2aff/asp-identity-pw.git"
+  },
+  "bugs": {
+    "url": "https://github.com/0x2aff/asp-identity-pw/issues"
+  },
+  "homepage": "https://github.com/0x2aff/asp-identity-pw#readme",
+  "devDependencies": {
+    "typescript": "^4.5.5"
+  }
+}
