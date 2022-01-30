@@ -13,7 +13,7 @@ export enum KeyDerivationPrf {
 /**
  * Returns the string representation of the specified key derivation prf.
  */
-export const kdPrfDigestMap = {
+export const KdPrfDigestMap = {
   [KeyDerivationPrf.HMAC_SHA1]: 'sha1',
   [KeyDerivationPrf.HMAC_SHA256]: 'sha256',
   [KeyDerivationPrf.HMAC_SHA512]: 'sha512',
