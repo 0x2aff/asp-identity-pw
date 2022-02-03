@@ -58,12 +58,16 @@ const hashedPassword = hashIdentityPasswordV2('UltraSecurePassword1337', 'hex');
 
 ### Password Hashing V3
 
+#### Implicit as base64 encoded string
+
 ```javascript
 import { hashIdentityPasswordV3 } from '../src/password_hasher';
 
 // hashedPassword is stored as base64 encoded string.
 const hashedPassword = hashIdentityPasswordV3('UltraSecurePassword1337');
 ```
+
+#### Explicit as base64 encoded string
 
 ```javascript
 import { hashIdentityPasswordV3 } from '../src/password_hasher';
@@ -74,6 +78,8 @@ const hashedPassword = hashIdentityPasswordV3(
   'base64'
 );
 ```
+
+#### Explicit as hex encoded string
 
 ```javascript
 import { hashIdentityPasswordV3 } from '../src/password_hasher';
