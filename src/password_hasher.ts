@@ -7,7 +7,10 @@ import { KdPrfDigestMap, KeyDerivationPrf } from './key_derivation_prf';
  * (See also: SDL crypto guidelines v5.1, Part III)
  * @param password Hashed password as base64 encoded string
  */
-export const hashIdentityPasswordV2 = (password: string): string => {
+export const hashIdentityPasswordV2 = (
+  password: string,
+  outputFormat: 'base64' | 'hex' = 'base64'
+): string => {
   const options = {
     salt: crypto.randomBytes(128 / 8),
     prf: KeyDerivationPrf.HMAC_SHA1,
@@ -20,7 +23,8 @@ export const hashIdentityPasswordV2 = (password: string): string => {
     options.salt,
     options.prf,
     options.iter,
-    options.keylen
+    options.keylen,
+    outputFormat
   );
 };
 
@@ -31,7 +35,10 @@ export const hashIdentityPasswordV2 = (password: string): string => {
  * @param password The password that should be hashed.
  * @returns Hashed password as base64 encoded string
  */
-export const hashIdentityPasswordV3 = (password: string): string => {
+export const hashIdentityPasswordV3 = (
+  password: string,
+  outputFormat: 'base64' | 'hex' = 'base64'
+): string => {
   const options = {
     salt: crypto.randomBytes(128 / 8),
     prf: KeyDerivationPrf.HMAC_SHA256,
@@ -44,7 +51,8 @@ export const hashIdentityPasswordV3 = (password: string): string => {
     options.salt,
     options.prf,
     options.iter,
-    options.keylen
+    options.keylen,
+    outputFormat
   );
 };
 
@@ -54,8 +62,14 @@ export const hashIdentityPasswordV3 = (password: string): string => {
  * @param hash The hash to verify the password against (in base64 encoding).
  * @returns True if the password matches the hash, false otherwise.
  */
-export const verifyPassword = (password: string, hash: string): boolean => {
-  const hashBuffer = Buffer.from(hash, 'base64');
+export const verifyPassword = (
+  password: string,
+  hash: Buffer | string,
+  inputFormat: 'base64' | 'hex' = 'base64'
+): boolean => {
+  const hashBuffer = Buffer.isBuffer(hash)
+    ? hash
+    : Buffer.from(hash, inputFormat);
 
   const usedPrf = getPrfMethodFromHash(hashBuffer);
   const digestString = KdPrfDigestMap[usedPrf];
@@ -123,7 +137,8 @@ const hashPassword = (
   salt: string | Buffer,
   prf: KeyDerivationPrf,
   iterations: number,
-  keyLength: number
+  keyLength: number,
+  outputFormat: 'base64' | 'hex' = 'base64'
 ): string => {
   const digestString = KdPrfDigestMap[prf];
   const saltBuffer = Buffer.isBuffer(salt) ? salt : Buffer.from(salt, 'binary');
@@ -148,7 +163,7 @@ const hashPassword = (
       saltBuffer.copy(outputBytes, 1);
       derivedKey.copy(outputBytes, 1 + saltBuffer.length);
 
-      return outputBytes.toString('base64');
+      return outputBytes.toString(outputFormat);
     }
     case KeyDerivationPrf.HMAC_SHA256: {
       const outputBytes = Buffer.alloc(13 + salt.length + derivedKey.length);
@@ -161,16 +176,15 @@ const hashPassword = (
       saltBuffer.copy(outputBytes, 13);
       derivedKey.copy(outputBytes, 13 + salt.length);
 
-      return outputBytes.toString('base64');
+      return outputBytes.toString(outputFormat);
     }
     default:
       throw new Error(`Unknown key derivation prf: ${prf}`);
   }
 };
 
-const getPrfMethodFromHash = (hash: string | Buffer): KeyDerivationPrf => {
-  const hashBytes = Buffer.isBuffer(hash) ? hash : Buffer.from(hash, 'base64');
-  return BitPrfMap[hashBytes[0]];
+const getPrfMethodFromHash = (hash: Buffer): KeyDerivationPrf => {
+  return BitPrfMap[hash[0]];
 };
 
 const PrfBitMap: { [key: number]: number } = {
